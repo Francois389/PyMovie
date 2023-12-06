@@ -43,16 +43,18 @@ class ScrollFrame(tk.CTkScrollableFrame):
         self.label = tk.CTkLabel(self)
         self.label.grid(row=0, column=0, padx=20)
 
+
 class App(tk.CTk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.tableau: ScrollFrame = ScrollFrame(master=self,  width=800, height=500)
+        self.tableau: ScrollFrame = ScrollFrame(master=self, width=800, height=500)
         self.tableau_est_visible: bool = False
         self.checkbox: list[CheckBox] = []
         self.title("Custom Tkinter")
         self.geometry("1000x700")
         bouton_afficher_tab: tk.CTkButton = tk.CTkButton(self, text="Afficher Filme", command=self.afficher_tableau)
-        bouton_afficher_resultat: tk.CTkButton = tk.CTkButton(self, text="Afficher Resultat", command=self.afficher_resultat)
+        bouton_afficher_resultat: tk.CTkButton = tk.CTkButton(self, text="Afficher Resultat",
+                                                              command=self.afficher_resultat)
         bouton_afficher_tab.grid(row=0, column=0, padx=20, pady=20)
         bouton_afficher_resultat.grid(row=0, column=1, padx=20, pady=20)
 
