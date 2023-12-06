@@ -39,10 +39,6 @@ class ScrollFrame(tk.CTkScrollableFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
 
-        # add widgets onto the frame...
-        self.label = tk.CTkLabel(self)
-        self.label.grid(row=0, column=0, padx=20)
-
 
 class App(tk.CTk):
     def __init__(self, *args, **kwargs):
