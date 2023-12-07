@@ -40,10 +40,34 @@ class ScrollFrame(tk.CTkScrollableFrame):
         super().__init__(master, **kwargs)
 
 
+class TableView:
+    def __init__(self, donnee: list[list], entete: list[str], master):
+        self.tableau = ScrollFrame(master=master, width=800, height=500)
+        self.checkbox = None
+        self.donnee = donnee
+        self.entete = entete
+
+    def get_table(self)->ScrollFrame:
+        for col, header in enumerate(self.entete):
+            label: tk.CTkLabel = tk.CTkLabel(self.tableau, text=header, font=("Arial", 12, "bold"))
+            label.grid(row=0, column=col, padx=10, pady=5)
+
+        self.checkbox = [None] * len(self.donnee)
+        for row, row_data in enumerate(self.donnee, start=1):
+            for col, value in enumerate(row_data):
+                text: tk.CTkEntry = CTkEntry(self.tableau, )
+                text.insert(tk.END, value)
+                text.grid(row=row, column=col, padx=10, pady=5)
+            checkbox: CheckBox = CheckBox(self.tableau, text="Valider", index_filme=row-1, ligne=row_data)
+            checkbox.grid(row=row, column=3, padx=10, pady=5)
+            self.checkbox[row-1] = checkbox
+        return self.tableau
+
+
 class App(tk.CTk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.tableau: ScrollFrame = ScrollFrame(master=self, width=800, height=500)
+        self.tableau = None
         self.tableau_est_visible: bool = False
         self.checkbox: list[CheckBox] = []
         self.title("Custom Tkinter")
@@ -55,19 +79,8 @@ class App(tk.CTk):
         bouton_afficher_resultat.grid(row=0, column=1, padx=20, pady=20)
 
     def ajouter_tableau(self, entete, donne):
-        for col, header in enumerate(entete):
-            label: tk.CTkLabel = tk.CTkLabel(self.tableau, text=header, font=("Arial", 12, "bold"))
-            label.grid(row=0, column=col, padx=10, pady=5)
-
-        self.checkbox = [None] * len(donne)
-        for row, row_data in enumerate(donne, start=1):
-            for col, value in enumerate(row_data):
-                text: tk.CTkEntry = CTkEntry(self.tableau, )
-                text.insert(tk.END, value)
-                text.grid(row=row, column=col, padx=10, pady=5)
-            checkbox: CheckBox = CheckBox(self.tableau, text="Valider", index_filme=row-1, ligne=row_data)
-            checkbox.grid(row=row, column=3, padx=10, pady=5)
-            self.checkbox[row-1] = checkbox
+        table = TableView(donne, entete, self)
+        self.tableau: ScrollFrame = table.get_table()
 
     def afficher_tableau(self):
         if not self.tableau_est_visible:
